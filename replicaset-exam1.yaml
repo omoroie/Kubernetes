@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: RepilcaSet
+metadata:
+  name: rs-front
+  labels:
+    app: new-app
+    tier: frontend
+
+spec:
+  replicas: 3
+  
+  selector:
+    matchLabels:
+      app: myapp
+      tier: frontend
+
+  template:
+    metadata:
+      name:
+      labels:
+        app: myapp
+        tier: frontend
