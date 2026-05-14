@@ -1,0 +1,8 @@
+# Pod의 우선순위를 정의하는 클래스
+apiVersion: scheduling.k8s.io.v1
+kind: PriorityClass
+metadata:
+  name: high-priority
+value: 1000000
+description: "Default Priority Pod"
+globalDefault: true

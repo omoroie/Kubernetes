@@ -1,0 +1,20 @@
+# node의 Taint와 같이 사용할 수 있음, taint를 열고 들어갈 수 있는 key 같은 존재이다
+# kubectl taint nodes node1(노드명) key=value:NoSchedule(effect) 와 같은식으로 정의된 노드에 pod를 배치할 때 사용된다
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  tolerations:
+  - key: "example-key"
+    value: "example-value"
+    operator: "Exists"
+    effect: "NoSchedule"
+
