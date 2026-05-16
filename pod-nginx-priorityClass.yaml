@@ -5,4 +5,5 @@ metadata:
   name: high-priority
 value: 1000000
 description: "Default Priority Pod"
-globalDefault: true
+preemptionPolicy: never
+globalDefault: true 
