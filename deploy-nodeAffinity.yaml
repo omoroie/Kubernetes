@@ -1,0 +1,28 @@
+# nodeAffinity를 사용하는 deployment 예문..
+# pod의 정의는 spec.template에 정의하므로 
+# PodSpec인 nodeAffinity는 deployment.spec.template.spec.affinity 에 정의해야 한다
+# kubectl explain deployment.spec --recursive | grep -B 4 -n nodeAffinity 를 이용해서도 상위 계층까지 찾아낼 수 있음
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: red
+  name: red
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: red
+  template:
+    metadata:
+      labels:
+        app: red
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
