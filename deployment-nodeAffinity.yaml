@@ -2,6 +2,9 @@
 # pod의 정의는 spec.template에 정의하므로 
 # PodSpec인 nodeAffinity는 deployment.spec.template.spec.affinity 에 정의해야 한다
 # kubectl explain deployment.spec --recursive | grep -B 4 -n nodeAffinity 를 이용해서도 상위 계층까지 찾아낼 수 있음
+
+# requiredDuringSchedulingIgnoredDuringExecution 설정을 통해 key가 node-role.kubernetes.io/control-plane인 노드에만 배치하는데
+# Labels에 node-role.kubernetes.io/control-plane를 가진 노드는 controlplain 이므로 taint가 문제 없이 설정되어 있다면 controlplain에 배치 하게 된다.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
