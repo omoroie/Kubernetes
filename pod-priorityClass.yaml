@@ -1,0 +1,23 @@
+# PriorityClass 예제와 Pod에서의 pc 사용 예시
+
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: low-priority
+value: 1000
+globalDefault: false
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: low-prio-pod
+  name: low-prio-pod
+spec:
+  containers:
+  - image: nginx
+    name: low-prio-pod
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  priorityClassName: low-priority
