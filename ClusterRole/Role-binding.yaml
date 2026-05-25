@@ -1,0 +1,24 @@
+# Cluster 기반 롤 제어를 할 수 있는 ClusterRole과 ClusterRoleBinding 이다
+# Role, RoleBinding과 크게 다르지 않지만 단위가 클러스터 영역으로 바뀌어서 네임스페이스의 영향을 받지 않는데
+# kubectl api-resources | grep -i cluster를 실행 해보면 false라고 나오는데, 이것은 클러스터 단위 리소스를 의미한다
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: new-node-admin
+rules:
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: michelle-rolebinding
+subjects:
+- kind: User
+  name: michelle
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: new-node-admin
+  apiGroup: rbac.authorization.k8s.io
