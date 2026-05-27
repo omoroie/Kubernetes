@@ -1,0 +1,38 @@
+# NetworkPolicy 사용 예제
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: internal-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      name: internal # name이 internal인 label을 가진 pod를 선택
+  policyTypes:
+  - Egress
+  - Ingress
+
+  ingress:
+    - {} # 모든 트래픽 허용
+  egress:
+  - to: # payroll 파드의 8080 포트로 나가는 트래픽 허용
+    - podSelector:
+        matchLabels:
+          name: payroll
+    ports:
+    - protocol: TCP
+      port: 8080
+
+  - to: # mysql 파드의 3306 포트로 나가는 트래픽 허용
+    - podSelector:
+        matchLabels:
+          name: mysql
+    ports:
+    - protocol: TCP
+      port: 3306
+
+  - ports: # 쿠버네티스 내부 DNS 조회를 위한 53번 포트 허용
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP

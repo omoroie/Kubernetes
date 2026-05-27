@@ -1,0 +1,28 @@
+# 여러 권한을 주고 싶을때에 apiGroups가 다른 경우에는 반드시 따로 지정해 주어야 한다
+# 같이 지정할 경우 권한 작동이 안될 수 있다
+# apiGroups의 확인은 kubectl api-resources | grep <resources>로 확인 가능하고, 기본값인 v1의 경우엔 ""로 입력가능 하지만
+# 그 외에 경우에는 반드시 지정해주어야 한다
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: storage-admin
+rules:
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["*"]
+- apiGroups: ["storage.k8s.io"]
+  resources: ["storageclasses"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: michelle-storage-admin
+subjects:
+- kind: User
+  name: michelle
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: storage-admin
+  apiGroup: rbac.authorization.k8s.io
