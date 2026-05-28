@@ -1,3 +1,4 @@
+# 처음 직접 손코딩해본 Pod - Service 예시
 apiVersion: v1
 kind: Pod
 metadata:
